@@ -20,18 +20,22 @@ internal class CompHatcher_Hatch
                     nameof(PawnGenerator.GeneratePawn),
                     [typeof(PawnGenerationRequest)])) && codes[i].opcode == OpCodes.Stloc_S)
             {
-                yield return new CodeInstruction(OpCodes.Ldloc_S, (byte)5);
+                yield return new CodeInstruction(OpCodes.Ldloc_S, (byte)7);
                 yield return CodeInstruction.Call(typeof(AutoNameAnimals),
                     nameof(AutoNameAnimals.GeneratePawnNameOnHatchHelper));
+                continue;
             }
-            else if (codes[i].Calls(AccessTools.Method(typeof(WorldPawns), nameof(WorldPawns.PassToWorld))))
+
+            if (!codes[i].Calls(AccessTools.Method(typeof(WorldPawns), nameof(WorldPawns.PassToWorld))))
             {
-                yield return new CodeInstruction(OpCodes.Ldloc_S, (byte)5)
-                {
-                    labels = codes[i + 1].ExtractLabels()
-                };
-                yield return CodeInstruction.Call(typeof(CompHatcher_Hatch), nameof(HatchedMessageHelper));
+                continue;
             }
+
+            yield return new CodeInstruction(OpCodes.Ldloc_S, (byte)7)
+            {
+                labels = codes[i + 1].ExtractLabels()
+            };
+            yield return CodeInstruction.Call(typeof(CompHatcher_Hatch), nameof(HatchedMessageHelper));
         }
     }
 

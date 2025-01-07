@@ -32,7 +32,7 @@ public class AutoNameAnimals : Mod
 
     private static bool ShouldName(Pawn pawn, bool allowed)
     {
-        if (allowed && !pawn.RaceProps.Humanlike && pawn.Name.Numerical)
+        if (allowed && !pawn.RaceProps.Humanlike && pawn.Name?.Numerical == true && pawn.Faction != null)
         {
             return pawn.Faction == Faction.OfPlayer;
         }
