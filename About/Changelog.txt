@@ -1,5 +1,8 @@
 # Changelog for AutoNameAnimals
 
+1.5.2 - Fixed taming, thanks Zaljerem again!
+
+
 1.5.1 - Fixed egg-hatching, thanks Zaljerem
 
 
