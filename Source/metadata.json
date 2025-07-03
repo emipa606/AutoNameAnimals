@@ -4,5 +4,11 @@
   "CanRemove": "0",
   "SocialImageSet": true,
   "SearchTags": " autonaming",
-  "PreviewVersion": "1.5"
+  "PreviewVersion": "1.6",
+  "LastXmlCleaning": "2025-07-03T20:52:20.8310801+02:00",
+  "Patches": false,
+  "Defs": false,
+  "Assemblies": true,
+  "LinesOfCode": 15635.0,
+  "LinesOfXML": 0
 }

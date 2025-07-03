@@ -15,31 +15,55 @@ internal class CompHatcher_Hatch
         var codes = new List<CodeInstruction>(instructions);
         for (var i = 0; i < codes.Count; i++)
         {
-            yield return codes[i];
-            if (i > 0 && codes[i - 1].Calls(AccessTools.Method(typeof(PawnGenerator),
-                    nameof(PawnGenerator.GeneratePawn),
-                    [typeof(PawnGenerationRequest)])) && codes[i].opcode == OpCodes.Stloc_S)
+            var code = codes[i];
+            yield return code;
+
+            // Look for the call to GeneratePawn
+            if (code.Calls(AccessTools.Method(typeof(PawnGenerator), nameof(PawnGenerator.GeneratePawn),
+                    [typeof(PawnGenerationRequest)])))
             {
-                yield return new CodeInstruction(OpCodes.Ldloc_S, (byte)7);
-                yield return CodeInstruction.Call(typeof(AutoNameAnimals),
-                    nameof(AutoNameAnimals.GeneratePawnNameOnHatchHelper));
+                // The next instruction should be stloc.* (stores the pawn)
+                if (i + 1 < codes.Count && codes[i + 1].opcode.Name.StartsWith("stloc"))
+                {
+                    var pawnStloc = codes[i + 1];
+                    yield return pawnStloc; // yield the stloc
+
+                    // Now inject: ldloc (same index as stloc), call GeneratePawnNameOnHatchHelper
+                    yield return new CodeInstruction(
+                        pawnStloc.opcode == OpCodes.Stloc_0 ? OpCodes.Ldloc_0 :
+                        pawnStloc.opcode == OpCodes.Stloc_1 ? OpCodes.Ldloc_1 :
+                        pawnStloc.opcode == OpCodes.Stloc_2 ? OpCodes.Ldloc_2 :
+                        pawnStloc.opcode == OpCodes.Stloc_3 ? OpCodes.Ldloc_3 :
+                        OpCodes.Ldloc_S, pawnStloc.operand);
+                    yield return CodeInstruction.Call(typeof(AutoNameAnimals),
+                        nameof(AutoNameAnimals.GeneratePawnNameOnHatchHelper));
+                    i++; // skip the stloc, already yielded
+                    continue;
+                }
+            }
+
+            // Patch for PassToWorld (optional, same logic applies)
+            if (!code.Calls(AccessTools.Method(typeof(WorldPawns), nameof(WorldPawns.PassToWorld))))
+            {
                 continue;
             }
 
-            if (!codes[i].Calls(AccessTools.Method(typeof(WorldPawns), nameof(WorldPawns.PassToWorld))))
+            // Find the pawn local index used in PassToWorld
+            if (i <= 0 || !codes[i - 1].opcode.Name.StartsWith("ldloc"))
             {
                 continue;
             }
 
-            yield return new CodeInstruction(OpCodes.Ldloc_S, (byte)7)
+            var pawnLdloc = codes[i - 1];
+            yield return new CodeInstruction(pawnLdloc.opcode, pawnLdloc.operand)
             {
                 labels = codes[i + 1].ExtractLabels()
             };
-            yield return CodeInstruction.Call(typeof(CompHatcher_Hatch), nameof(HatchedMessageHelper));
+            yield return CodeInstruction.Call(typeof(CompHatcher_Hatch), nameof(hatchedMessageHelper));
         }
     }
 
-    private static void HatchedMessageHelper(Pawn pawn)
+    private static void hatchedMessageHelper(Pawn pawn)
     {
         if (PawnUtility.ShouldSendNotificationAbout(pawn))
         {

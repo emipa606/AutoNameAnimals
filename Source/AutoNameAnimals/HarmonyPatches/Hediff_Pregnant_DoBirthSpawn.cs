@@ -27,12 +27,12 @@ internal class Hediff_Pregnant_DoBirthSpawn
             {
                 yield return new CodeInstruction(OpCodes.Ldarg_0);
                 yield return new CodeInstruction(OpCodes.Ldloc_2);
-                yield return CodeInstruction.Call(typeof(Hediff_Pregnant_DoBirthSpawn), nameof(GaveBirthMessageHelper));
+                yield return CodeInstruction.Call(typeof(Hediff_Pregnant_DoBirthSpawn), nameof(gaveBirthMessageHelper));
             }
         }
     }
 
-    private static void GaveBirthMessageHelper(Pawn mother, Pawn pawn)
+    private static void gaveBirthMessageHelper(Pawn mother, Pawn pawn)
     {
         if (PawnUtility.ShouldSendNotificationAbout(mother) || PawnUtility.ShouldSendNotificationAbout(pawn))
         {

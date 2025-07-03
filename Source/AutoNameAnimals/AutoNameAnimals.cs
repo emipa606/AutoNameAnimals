@@ -10,12 +10,12 @@ namespace AutoNameAnimals;
 [StaticConstructorOnStartup]
 public class AutoNameAnimals : Mod
 {
-    public static string currentVersion;
+    public static string CurrentVersion;
 
     public AutoNameAnimals(ModContentPack content)
         : base(content)
     {
-        currentVersion = VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
+        CurrentVersion = VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
         new Harmony("sky.autoname.autonameanimals").PatchAll(Assembly.GetExecutingAssembly());
         GetSettings<Settings>();
     }
@@ -30,7 +30,7 @@ public class AutoNameAnimals : Mod
         Settings.DoSettingsWindowContents(inRect);
     }
 
-    private static bool ShouldName(Pawn pawn, bool allowed)
+    private static bool shouldName(Pawn pawn, bool allowed)
     {
         if (allowed && !pawn.RaceProps.Humanlike && pawn.Name?.Numerical == true && pawn.Faction != null)
         {
@@ -42,7 +42,7 @@ public class AutoNameAnimals : Mod
 
     public static void GeneratePawnNameOnBirthHelper(Pawn pawn)
     {
-        if (ShouldName(pawn, Settings.name_on_birth))
+        if (shouldName(pawn, Settings.NameOnBirth))
         {
             pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
         }
@@ -50,7 +50,7 @@ public class AutoNameAnimals : Mod
 
     public static void GeneratePawnNameOnHatchHelper(Pawn pawn)
     {
-        if (ShouldName(pawn, Settings.name_on_hatch))
+        if (shouldName(pawn, Settings.NameOnHatch))
         {
             pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
         }
@@ -58,7 +58,7 @@ public class AutoNameAnimals : Mod
 
     public static void GeneratePawnNameOnTameHelper(Pawn pawn)
     {
-        if (ShouldName(pawn, Settings.name_on_tame))
+        if (shouldName(pawn, Settings.NameOnTame))
         {
             pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
         }
@@ -66,7 +66,7 @@ public class AutoNameAnimals : Mod
 
     public static void GeneratePawnNameOnSelfTameHelper(Pawn pawn)
     {
-        if (ShouldName(pawn, Settings.name_on_self_tame))
+        if (shouldName(pawn, Settings.NameOnSelfTame))
         {
             pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
         }
@@ -74,7 +74,7 @@ public class AutoNameAnimals : Mod
 
     public static void GeneratePawnNameOnWanderHelper(Pawn pawn)
     {
-        if (ShouldName(pawn, Settings.name_on_wander))
+        if (shouldName(pawn, Settings.NameOnWander))
         {
             pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
         }

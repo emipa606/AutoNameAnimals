@@ -5,8 +5,8 @@ using Verse;
 
 namespace AutoNameAnimals.HarmonyPatches;
 
-[HarmonyPatch(typeof(Hediff_Pregnant), nameof(Hediff_Pregnant.Tick))]
-internal class Hediff_Pregnant_Tick
+[HarmonyPatch(typeof(Hediff_Pregnant), nameof(Hediff_Pregnant.TickInterval))]
+internal class Hediff_Pregnant_TickInterval
 {
     private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
