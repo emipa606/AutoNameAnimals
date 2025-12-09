@@ -5,10 +5,11 @@
   "SocialImageSet": true,
   "SearchTags": " autonaming",
   "PreviewVersion": "1.6",
-  "LastXmlCleaning": "2025-07-03T20:52:20.8310801+02:00",
+  "LastXmlCleaning": "2025-12-09T19:33:40.2029841+01:00",
   "Patches": false,
   "Defs": false,
   "Assemblies": true,
-  "LinesOfCode": 15635.0,
-  "LinesOfXML": 0
+  "LinesOfCode": 17632,
+  "LinesOfXML": 0,
+  "CodeBaseSize": 66
 }

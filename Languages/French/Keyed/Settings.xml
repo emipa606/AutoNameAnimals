@@ -13,4 +13,6 @@
   <name_on_self_tame_note>Nommer automatiquement les animaux en cas d'apprivoisement</name_on_self_tame_note>
   <name_on_wander_label>Errer</name_on_wander_label>
   <name_on_wander_note>Nommer automatiquement les animaux lors d'incidents d'errance</name_on_wander_note>
+  <excluded_names_label>Noms exclus (séparés par une virgule)</excluded_names_label>
+  <excluded_names_note>Noms séparés par des virgules qui ne seront pas utilisés lors de la génération d'un nom</excluded_names_note>
 </LanguageData>

@@ -13,4 +13,6 @@
   <name_on_self_tame_note>为自我驯服的动物自动命名</name_on_self_tame_note>
   <name_on_wander_label>漫步</name_on_wander_label>
   <name_on_wander_note>为流浪事件中的动物自动命名</name_on_wander_note>
+  <excluded_names_label>排除名称（用逗号分隔）</excluded_names_label>
+  <excluded_names_note>生成名称时不会使用逗号分隔的名称</excluded_names_note>
 </LanguageData>

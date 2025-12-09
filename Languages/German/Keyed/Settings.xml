@@ -13,4 +13,6 @@
   <name_on_self_tame_note>Tiere bei Selbstzähmung automatisch benennen</name_on_self_tame_note>
   <name_on_wander_label>Wanderung</name_on_wander_label>
   <name_on_wander_note>Automatische Benennung von Tieren bei Wandervorfällen</name_on_wander_note>
+  <excluded_names_label>Ausgeschlossene Namen (durch Komma getrennt)</excluded_names_label>
+  <excluded_names_note>Durch Kommata getrennte Namen, die beim Generieren eines Namens nicht verwendet werden</excluded_names_note>
 </LanguageData>

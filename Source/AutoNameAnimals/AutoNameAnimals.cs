@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using HarmonyLib;
 using Mlie;
@@ -40,11 +41,39 @@ public class AutoNameAnimals : Mod
         return false;
     }
 
+    private static bool isExcluded(Name name)
+    {
+        if (name is not NameSingle single)
+        {
+            return false;
+        }
+
+        var n = single.Name ?? string.Empty;
+        return Settings.ExcludedNames.Any(x => string.Equals(x, n, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static Name generateFilteredPawnName(Pawn pawn)
+    {
+        // Try multiple times to avoid excluded names, fall back if all attempts are excluded
+        Name last = null;
+        for (var i = 0; i < 20; i++)
+        {
+            var candidate = PawnBioAndNameGenerator.GeneratePawnName(pawn);
+            last = candidate;
+            if (!isExcluded(candidate))
+            {
+                return candidate;
+            }
+        }
+
+        return last ?? PawnBioAndNameGenerator.GeneratePawnName(pawn);
+    }
+
     public static void GeneratePawnNameOnBirthHelper(Pawn pawn)
     {
         if (shouldName(pawn, Settings.NameOnBirth))
         {
-            pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
+            pawn.Name = generateFilteredPawnName(pawn);
         }
     }
 
@@ -52,7 +81,7 @@ public class AutoNameAnimals : Mod
     {
         if (shouldName(pawn, Settings.NameOnHatch))
         {
-            pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
+            pawn.Name = generateFilteredPawnName(pawn);
         }
     }
 
@@ -60,7 +89,7 @@ public class AutoNameAnimals : Mod
     {
         if (shouldName(pawn, Settings.NameOnTame))
         {
-            pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
+            pawn.Name = generateFilteredPawnName(pawn);
         }
     }
 
@@ -68,7 +97,7 @@ public class AutoNameAnimals : Mod
     {
         if (shouldName(pawn, Settings.NameOnSelfTame))
         {
-            pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
+            pawn.Name = generateFilteredPawnName(pawn);
         }
     }
 
@@ -76,7 +105,7 @@ public class AutoNameAnimals : Mod
     {
         if (shouldName(pawn, Settings.NameOnWander))
         {
-            pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
+            pawn.Name = generateFilteredPawnName(pawn);
         }
     }
 
@@ -84,7 +113,7 @@ public class AutoNameAnimals : Mod
     {
         if (!pawn.RaceProps.Humanlike)
         {
-            pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn);
+            pawn.Name = generateFilteredPawnName(pawn);
         }
     }
 }

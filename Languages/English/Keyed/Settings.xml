@@ -12,4 +12,6 @@
   <name_on_self_tame_note>Auto-name animals on self-tame</name_on_self_tame_note>
   <name_on_wander_label>Wander</name_on_wander_label>
   <name_on_wander_note>Auto-name animals on wander incidents</name_on_wander_note>
+  <excluded_names_label>Excluded names (separated by comma)</excluded_names_label>
+  <excluded_names_note>Comma separated names that will not be used when generating a name</excluded_names_note>
 </LanguageData>
