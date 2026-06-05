@@ -6,4 +6,11 @@
     <BuildType Name="Release" />
   </Configurations>
   <Project Path="AutoNameAnimals/AutoNameAnimals.csproj" />
+  <Folder Name="/XML/Languages/English/Keyed/">
+    <File Path="../Languages/English/Keyed/Messages.xml" />
+    <File Path="../Languages/English/Keyed/Settings.xml" />
+  </Folder>
+  <Folder Name="/XML/About/">
+    <File Path="../About/about.xml" />
+  </Folder>
 </Solution>

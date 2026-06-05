@@ -1,5 +1,8 @@
 # Changelog for AutoNameAnimals
 
+1.6.2 - Fixed transpiler for farm animals wander in
+
+
 1.6.1 - Added setting to exclude names from generating
 Used DeepL to update translations for ChineseSimplified, French, German
 
