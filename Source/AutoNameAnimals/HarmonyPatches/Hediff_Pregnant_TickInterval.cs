@@ -6,9 +6,9 @@ using Verse;
 namespace AutoNameAnimals.HarmonyPatches;
 
 [HarmonyPatch(typeof(Hediff_Pregnant), nameof(Hediff_Pregnant.TickInterval))]
-internal class Hediff_Pregnant_TickInterval
+internal static class Hediff_Pregnant_TickInterval
 {
-    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var codes = new List<CodeInstruction>(instructions);
         for (var i = 0; i < codes.Count; i++)

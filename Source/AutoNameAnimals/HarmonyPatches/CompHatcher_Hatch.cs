@@ -8,9 +8,9 @@ using Verse;
 namespace AutoNameAnimals.HarmonyPatches;
 
 [HarmonyPatch(typeof(CompHatcher), nameof(CompHatcher.Hatch))]
-internal class CompHatcher_Hatch
+internal static class CompHatcher_Hatch
 {
-    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var codes = new List<CodeInstruction>(instructions);
         for (var i = 0; i < codes.Count; i++)
@@ -20,26 +20,24 @@ internal class CompHatcher_Hatch
 
             // Look for the call to GeneratePawn
             if (code.Calls(AccessTools.Method(typeof(PawnGenerator), nameof(PawnGenerator.GeneratePawn),
-                    [typeof(PawnGenerationRequest)])))
+                    [typeof(PawnGenerationRequest)])) && i + 1 < codes.Count &&
+                codes[i + 1].opcode.Name.StartsWith("stloc"))
             {
                 // The next instruction should be stloc.* (stores the pawn)
-                if (i + 1 < codes.Count && codes[i + 1].opcode.Name.StartsWith("stloc"))
-                {
-                    var pawnStloc = codes[i + 1];
-                    yield return pawnStloc; // yield the stloc
+                var pawnStloc = codes[i + 1];
+                yield return pawnStloc; // yield the stloc
 
-                    // Now inject: ldloc (same index as stloc), call GeneratePawnNameOnHatchHelper
-                    yield return new CodeInstruction(
-                        pawnStloc.opcode == OpCodes.Stloc_0 ? OpCodes.Ldloc_0 :
-                        pawnStloc.opcode == OpCodes.Stloc_1 ? OpCodes.Ldloc_1 :
-                        pawnStloc.opcode == OpCodes.Stloc_2 ? OpCodes.Ldloc_2 :
-                        pawnStloc.opcode == OpCodes.Stloc_3 ? OpCodes.Ldloc_3 :
-                        OpCodes.Ldloc_S, pawnStloc.operand);
-                    yield return CodeInstruction.Call(typeof(AutoNameAnimals),
-                        nameof(AutoNameAnimals.GeneratePawnNameOnHatchHelper));
-                    i++; // skip the stloc, already yielded
-                    continue;
-                }
+                // Now inject: ldloc (same index as stloc), call GeneratePawnNameOnHatchHelper
+                yield return new CodeInstruction(
+                    pawnStloc.opcode == OpCodes.Stloc_0 ? OpCodes.Ldloc_0 :
+                    pawnStloc.opcode == OpCodes.Stloc_1 ? OpCodes.Ldloc_1 :
+                    pawnStloc.opcode == OpCodes.Stloc_2 ? OpCodes.Ldloc_2 :
+                    pawnStloc.opcode == OpCodes.Stloc_3 ? OpCodes.Ldloc_3 :
+                    OpCodes.Ldloc_S, pawnStloc.operand);
+                yield return CodeInstruction.Call(typeof(AutoNameAnimals),
+                    nameof(AutoNameAnimals.GeneratePawnNameOnHatchHelper));
+                i++; // skip the stloc, already yielded
+                continue;
             }
 
             // Patch for PassToWorld (optional, same logic applies)

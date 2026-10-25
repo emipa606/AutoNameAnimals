@@ -7,9 +7,9 @@ using Verse;
 namespace AutoNameAnimals.HarmonyPatches;
 
 [HarmonyPatch(typeof(IncidentWorker_NeutralGroup), "SpawnPawns")]
-internal class IncidentWorker_NeutralGroup_SpawnPawns
+internal static class IncidentWorker_NeutralGroup_SpawnPawns
 {
-    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var codes = new List<CodeInstruction>(instructions);
         for (var i = 0; i < codes.Count; i++)

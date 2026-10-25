@@ -7,9 +7,9 @@ using Verse;
 namespace AutoNameAnimals.HarmonyPatches;
 
 [HarmonyPatch(typeof(IncidentWorker_FarmAnimalsWanderIn), "SpawnAnimal")]
-internal class IncidentWorker_FarmAnimalsWanderIn_SpawnAnimal
+internal static class IncidentWorker_FarmAnimalsWanderIn_SpawnAnimal
 {
-    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var ofPlayerMethod = AccessTools.PropertyGetter(typeof(Faction), nameof(Faction.OfPlayer));
         var setFactionMethod = AccessTools.Method(typeof(Thing), nameof(Thing.SetFaction),

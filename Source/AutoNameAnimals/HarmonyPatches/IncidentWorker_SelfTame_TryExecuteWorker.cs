@@ -7,9 +7,9 @@ using Verse;
 namespace AutoNameAnimals.HarmonyPatches;
 
 [HarmonyPatch(typeof(IncidentWorker_SelfTame), "TryExecuteWorker")]
-internal class IncidentWorker_SelfTame_TryExecuteWorker
+internal static class IncidentWorker_SelfTame_TryExecuteWorker
 {
-    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         var codes = new List<CodeInstruction>(instructions);
         foreach (var codeInstruction in codes)

@@ -26,4 +26,4 @@ A message is also shown when an animal is hatched.
 
  
 
-[![Image](https://img.shields.io/github/v/release/emipa606/AutoNameAnimals?label=latest%20version&style=plastic&color=9f1111&labelColor=black)](https://steamcommunity.com/sharedfiles/filedetails/changelog/3402821177) | tags: autonaming
+[![Image](https://img.shields.io/github/v/release/emipa606/AutoNameAnimals?label=latest%20version&style=plastic&color=9f1111&labelColor=black)](https://steamcommunity.com/sharedfiles/filedetails/changelog/3402821177) | autonaming
